@@ -116,7 +116,18 @@ def parse_layer_spec(layer_spec, layer_config):
 
 def calculate_nominal_zoom(zoom, tile_size):
     assert tile_size >= 1
-    return zoom + tile_size - 1
+    if zoom == 14:
+        return 16
+    else:
+        return zoom + tile_size - 1
+
+
+def calculate_nominal_zoom_contours(zoom, tile_size):
+    assert tile_size >= 1
+    if zoom == 13:
+        return 16
+    else:
+        return zoom + tile_size - 1
 
 
 class TileServer(object):
@@ -225,7 +236,10 @@ class TileServer(object):
                 return self.create_response(
                     request, 200, tile_data, format.mimetype)
 
-            nominal_zoom = calculate_nominal_zoom(coord.zoom, tile_size)
+            if layer_spec == 'contours':
+                nominal_zoom = calculate_nominal_zoom_contours(coord.zoom, tile_size)
+            else:
+                nominal_zoom = calculate_nominal_zoom(coord.zoom, tile_size)
 
             # fetch data for all layers, even if the request was for a partial
             # set. this ensures that we can always store the result, allowing
