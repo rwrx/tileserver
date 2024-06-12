@@ -241,6 +241,10 @@ class TileServer(object):
             else:
                 nominal_zoom = calculate_nominal_zoom(coord.zoom, tile_size)
 
+            max_zoom_with_changes = nominal_zoom
+            if max_zoom_with_changes == 16:
+                max_zoom_with_changes = 17
+
             # fetch data for all layers, even if the request was for a partial
             # set. this ensures that we can always store the result, allowing
             # for reuse, but also that any post-processing functions which
@@ -275,7 +279,7 @@ class TileServer(object):
             formatted_tiles, extra_data = format_coord(
                 coord,
                 nominal_zoom,
-                nominal_zoom+1,
+                max_zoom_with_changes,
                 processed_feature_layers,
                 (format,),
                 unpadded_bounds,
