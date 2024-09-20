@@ -117,7 +117,7 @@ def parse_layer_spec(layer_spec, layer_config):
 def calculate_nominal_zoom(zoom, tile_size):
     assert tile_size >= 1
     if zoom == 14:
-        return 17
+        return 18
     else:
         return zoom + tile_size - 1
 
